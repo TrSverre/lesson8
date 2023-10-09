@@ -1,18 +1,4 @@
 ---
-- name: install tomcat
-  hosts: web
-  become: yes
-
-  tasks:
-  - name: Ensure tomcat package is present
-    apt:
-     name: tomcat9
-     state: present
-  - name: Ensu tomcat service is started
-    service:
-     name: tomcat9
-     state: started
-
 - name: build war
   hosts: app
   become: yes
@@ -36,5 +22,23 @@
   - name: copy war
     fetch:
       src: /home/user/git/livewar-assembly/target/livewar-example.war
-      dest: /var/lib/tomcat9/webapps
-      flat: teur
+      dest: /var/lib/tomcat9/webapps/livewar-example.war
+      flat: true
+
+- name: install tomcat
+  hosts: web
+  become: yes
+
+  tasks:
+  - name: Ensure tomcat package is present
+    apt:
+     name: tomcat9
+     state: present
+  - name: Ensu tomcat service is started
+    service:
+     name: tomcat9
+     state: started
+  - name: copy war
+    copy:
+      src: /var/lib/tomcat9/webapps/livewar-example.war
+      dest: /var/lib/tomcat9/webapps/
