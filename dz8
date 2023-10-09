@@ -1,1 +1,39 @@
-1
+---
+- name: install tomcat
+  hosts: web
+  become: yes
+
+  tasks:
+  - name: Ensure tomcat package is present
+    apt:
+     name: tomcat9
+     state: present
+  - name: Ensu tomcat service is started
+    service:
+     name: tomcat9
+     state: started
+
+- name: build war
+  hosts: app
+  become: yes
+  
+  tasks: 
+  - name: Ensure  packags
+    apt:
+     name: 
+      - default-jdk
+      - maven
+      - git
+     state: present
+  - name: git clone 
+    git:
+     repo: 'https://github.com/jetty-project/embedded-jetty-live-war'
+     dest: /home/user/git
+  - name: "source code : local install"
+    command: mvn package
+    args:
+      chdir: /home/user/git
+  - name: copy war
+    fetch:
+      src: /home/user/git/livewar-assembly/target/livewar-example.war
+      dest: /var/lib/tomcat9/webapps/-web
