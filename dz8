@@ -35,5 +35,6 @@
       chdir: /home/user/git
   - name: copy war
     fetch:
-      src: livewar-example.war
-      dest: /var/lib/tomcat9/webapps/
+      src: /home/user/git/livewar-assembly/target/livewar-example.war
+      dest: /var/lib/tomcat9/webapps
+      flat: teur
