@@ -4,7 +4,7 @@
   become: yes
   
   tasks: 
-  - name: Ensure  packags
+  - name: Ensure packags
     apt:
      name: 
       - default-jdk
@@ -15,7 +15,7 @@
     git:
      repo: 'https://github.com/jetty-project/embedded-jetty-live-war'
      dest: /home/user/git
-  - name: "source code : local install"
+  - name: building
     command: mvn package
     args:
       chdir: /home/user/git
@@ -34,7 +34,7 @@
     apt:
      name: tomcat9
      state: present
-  - name: Ensu tomcat service is started
+  - name: Ensure tomcat service is started
     service:
      name: tomcat9
      state: started
